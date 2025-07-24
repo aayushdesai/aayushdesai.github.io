@@ -18,13 +18,13 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Hypatia of Alexandria
-email: ttalbertott@gmail.com
+title: I want it that way
+email: desaiaayush08@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Personal website of Hypatia of Alexandria, Astronomer, philosopher and mathematician.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  atorralbt
+github_username:  aayushdesai
 
 # Build settings
 # theme: minima
@@ -49,10 +49,10 @@ round-avatar: true
 # You can change the order that they show up on the page by changing the order here.
 # Uncomment the links you want to show and add your information to each one.
 social-network-links:
-  email: "hypatia.alexandria@ista.ac.at"
+  email: "adesai@ista.ac.at"
   rss: true  # remove this line if you don't want to show an RSS link at the bottom
 # facebook: hypatiarules
-  github: hypatiarules
+  github: aayushdesai
 # twitter: xx
 #  patreon: DeanAttali
 #  youtube: "@daattali"
