@@ -14,7 +14,7 @@ cover-img:
 
 I am Aayush Desai, a researcher at the Institute of Science and Technology Austria (ISTA). I am passionate about mathematics, astronomy, and the pursuit of knowledge. My work focuses on focusing most of the time
 
-![Hypatia of Alexandria](assets/images/2025-01-01-Hypatia-of-Alexandria.jpg)
+![Hypatia of Alexandria](assets/images/250610_Goodrich&Co-6.jpg)
 
 ## Connect with Me
 
