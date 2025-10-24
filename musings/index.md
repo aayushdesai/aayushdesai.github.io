@@ -24,4 +24,4 @@ A short collection of books and reflections. Click a title to read my brief note
   </div>
 </div>
 
-Add more entries by creating files in the `_musings/` folder; the page will update automatically.
+<!-- Add more entries by creating files in the `_musings/` folder; the page will update automatically. -->

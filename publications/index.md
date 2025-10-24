@@ -29,4 +29,4 @@ Below is a curated list of my most relevant works. Click a title to open its ded
   </div>
 </div>
 
-If you'd like, edit the files in `_publications/` to change titles, add metadata (for example `doi:` or `year:`), or update the content — the index will update automatically.
+<!-- If you'd like, edit the files in `_publications/` to change titles, add metadata (for example `doi:` or `year:`), or update the content — the index will update automatically. -->
