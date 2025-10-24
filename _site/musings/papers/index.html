@@ -9,15 +9,35 @@
 
   
 
-  <title>A Highschooler’s Guide to GeV-Range Electromagnetism</title>
+  <title>Musings — Papers</title>
 
   
 
-  <meta name="description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta name="description" content="# Papers
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+
+
+  astro-ph
+  statistics
+  complexity
+
+
+{% assign papers = site.musings | where: &quot;type&quot;, &quot;paper&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for p in papers %}
+      
+        
+          
+            {{ p.title }}
+            {% if p.category %}{{ p.category }}{% endif %}
+            {{ p.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
@@ -78,21 +98,39 @@ DOI: https://doi.org/10.1142/S2661339520500134">
 
   
   <meta property="og:site_name" content="I want it that way">
-  <meta property="og:title" content="A Highschooler’s Guide to GeV-Range Electromagnetism">
-  <meta property="og:description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta property="og:title" content="Musings — Papers">
+  <meta property="og:description" content="# Papers
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+
+
+  astro-ph
+  statistics
+  complexity
+
+
+{% assign papers = site.musings | where: &quot;type&quot;, &quot;paper&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for p in papers %}
+      
+        
+          
+            {{ p.title }}
+            {% if p.category %}{{ p.category }}{% endif %}
+            {{ p.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
   
-  <meta property="og:type" content="article">
-  <meta property="og:article:author" content="">
-  <meta property="og:article:published_time" content="2025-10-25T01:09:12+05:30">
-  <meta property="og:url" content="http://localhost:4000/publications/cern/">
-  <link rel="canonical" href="http://localhost:4000/publications/cern/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:4000/musings/papers/">
+  <link rel="canonical" href="http://localhost:4000/musings/papers/">
   
 
   
@@ -101,12 +139,32 @@ DOI: https://doi.org/10.1142/S2661339520500134">
   <meta name="twitter:site" content="@">
   <meta name="twitter:creator" content="@">
 
-  <meta property="twitter:title" content="A Highschooler’s Guide to GeV-Range Electromagnetism">
-  <meta property="twitter:description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta property="twitter:title" content="Musings — Papers">
+  <meta property="twitter:description" content="# Papers
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+
+
+  astro-ph
+  statistics
+  complexity
+
+
+{% assign papers = site.musings | where: &quot;type&quot;, &quot;paper&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for p in papers %}
+      
+        
+          
+            {{ p.title }}
+            {% if p.category %}{{ p.category }}{% endif %}
+            {{ p.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
@@ -167,7 +225,7 @@ DOI: https://doi.org/10.1142/S2661339520500134">
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="page-heading">
-          <h1>A Highschooler’s Guide to GeV-Range Electromagnetism</h1>
+          <h1>Papers</h1>
           
 
           
@@ -187,11 +245,43 @@ DOI: https://doi.org/10.1142/S2661339520500134">
     <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
       
 
-      <p>Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.</p>
+      <h1 id="papers">Papers</h1>
 
-<p>Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.</p>
+<!-- Browse short papers and notes. Use the subject filters below to narrow down by area. -->
 
-<p>DOI: <a href="https://doi.org/10.1142/S2661339520500134">https://doi.org/10.1142/S2661339520500134</a></p>
+<p>
+  <a class="btn btn-outline-secondary mr-2" href="/musings/papers/astro-ph/">astro-ph</a>
+  <a class="btn btn-outline-secondary mr-2" href="/musings/papers/statistics/">statistics</a>
+  <a class="btn btn-outline-secondary" href="/musings/papers/complexity/">complexity</a>
+</p>
+
+<div class="container-md">
+  <div class="row">
+    
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title"><a href="/musings/love_2ndorder_pt/">Love might be a second-order phase transition; Week </a></h3>
+            <p class="card-subtitle mb-2 text-muted">complexity</p>
+            <p class="card-text">
+</p>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title"><a href="/musings/limits-of-human/">What can we know about that which we cannot even imagine; Week </a></h3>
+            <p class="card-subtitle mb-2 text-muted">complexity</p>
+            <p class="card-text">
+</p>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</div>
 
 
       

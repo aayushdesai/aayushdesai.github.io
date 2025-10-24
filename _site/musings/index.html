@@ -13,22 +13,7 @@
 
   
 
-  <meta name="description" content="A short collection of books and reflections. Click a title to read my brief note about each book.
-
-{% assign sorted = site.musings | sort: &apos;title&apos; %}
-
-
-  
-    {% for book in sorted %}
-      
-        
-          
-            {{ book.title }}
-            {{ book.content | strip_html | truncatewords:40 }}
-          
-        
-      
-    {% endfor %}">
+  <meta name="description" content="A short collection of books and papers. Use the links below to browse books or research papers (papers are further subdivided by subject area). Books Personal notes and brief essays about books I&apos;ve read or written. Browse Books Papers Short papers and notes organized by subject (astro-ph, statistics, complexity). Browse...">
 
   
 
@@ -90,22 +75,7 @@
   
   <meta property="og:site_name" content="I want it that way">
   <meta property="og:title" content="Musings">
-  <meta property="og:description" content="A short collection of books and reflections. Click a title to read my brief note about each book.
-
-{% assign sorted = site.musings | sort: &apos;title&apos; %}
-
-
-  
-    {% for book in sorted %}
-      
-        
-          
-            {{ book.title }}
-            {{ book.content | strip_html | truncatewords:40 }}
-          
-        
-      
-    {% endfor %}">
+  <meta property="og:description" content="A short collection of books and papers. Use the links below to browse books or research papers (papers are further subdivided by subject area). Books Personal notes and brief essays about books I&apos;ve read or written. Browse Books Papers Short papers and notes organized by subject (astro-ph, statistics, complexity). Browse...">
 
   
 
@@ -122,22 +92,7 @@
   <meta name="twitter:creator" content="@">
 
   <meta property="twitter:title" content="Musings">
-  <meta property="twitter:description" content="A short collection of books and reflections. Click a title to read my brief note about each book.
-
-{% assign sorted = site.musings | sort: &apos;title&apos; %}
-
-
-  
-    {% for book in sorted %}
-      
-        
-          
-            {{ book.title }}
-            {{ book.content | strip_html | truncatewords:40 }}
-          
-        
-      
-    {% endfor %}">
+  <meta property="twitter:description" content="A short collection of books and papers. Use the links below to browse books or research papers (papers are further subdivided by subject area). Books Personal notes and brief essays about books I&apos;ve read or written. Browse Books Papers Short papers and notes organized by subject (astro-ph, statistics, complexity). Browse...">
 
   
 
@@ -218,26 +173,33 @@
     <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
       
 
-      <p>A short collection of books and reflections. Click a title to read my brief note about each book.</p>
+      <p>A short collection of books and papers. Use the links below to browse books or research papers (papers are further subdivided by subject area).</p>
 
 <div class="container-md">
   <div class="row">
-    
-      <div class="col-md-6 mb-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h3 class="card-title"><a href="/musings/death-of-ivan-ilych/">Death of Ivan Ilyich; Week 43</a></h3>
-            <p class="card-text">“Tolstoy’s The Death of Ivan Ilyich is a stark reflection on mortality, social performance, and what makes a life meaningful. In my notes I focus on … (edit this).”
-
-</p>
-          </div>
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h3 class="card-title">Books</h3>
+          <p class="card-text">Personal notes and brief essays about books I've read or written.</p>
+          <a class="btn btn-primary" href="/musings/books/">Browse Books</a>
         </div>
       </div>
-    
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h3 class="card-title">Papers</h3>
+          <p class="card-text">Short papers and notes organized by subject (astro-ph, statistics, complexity).</p>
+          <a class="btn btn-primary" href="/musings/papers/">Browse Papers</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Add more entries by creating files in the `_musings/` folder; the page will update automatically. -->
+<!-- Add entries by creating files in the `_musings/` folder and setting `type: book` or `type: paper` plus `category:` for papers. The index pages will update automatically. -->
 
 
       

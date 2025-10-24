@@ -9,15 +9,28 @@
 
   
 
-  <title>A Highschooler’s Guide to GeV-Range Electromagnetism</title>
+  <title>Musings — Books</title>
 
   
 
-  <meta name="description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta name="description" content="# Books
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+A list of items from the `musings` collection which are tagged as books.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+{% assign books = site.musings | where: &quot;type&quot;, &quot;book&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for book in books %}
+      
+        
+          
+            {{ book.title }}
+            {{ book.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
@@ -78,21 +91,32 @@ DOI: https://doi.org/10.1142/S2661339520500134">
 
   
   <meta property="og:site_name" content="I want it that way">
-  <meta property="og:title" content="A Highschooler’s Guide to GeV-Range Electromagnetism">
-  <meta property="og:description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta property="og:title" content="Musings — Books">
+  <meta property="og:description" content="# Books
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+A list of items from the `musings` collection which are tagged as books.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+{% assign books = site.musings | where: &quot;type&quot;, &quot;book&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for book in books %}
+      
+        
+          
+            {{ book.title }}
+            {{ book.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
   
-  <meta property="og:type" content="article">
-  <meta property="og:article:author" content="">
-  <meta property="og:article:published_time" content="2025-10-25T01:09:12+05:30">
-  <meta property="og:url" content="http://localhost:4000/publications/cern/">
-  <link rel="canonical" href="http://localhost:4000/publications/cern/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:4000/musings/books/">
+  <link rel="canonical" href="http://localhost:4000/musings/books/">
   
 
   
@@ -101,12 +125,25 @@ DOI: https://doi.org/10.1142/S2661339520500134">
   <meta name="twitter:site" content="@">
   <meta name="twitter:creator" content="@">
 
-  <meta property="twitter:title" content="A Highschooler’s Guide to GeV-Range Electromagnetism">
-  <meta property="twitter:description" content="Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+  <meta property="twitter:title" content="Musings — Books">
+  <meta property="twitter:description" content="# Books
 
-Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.
+A list of items from the `musings` collection which are tagged as books.
 
-DOI: https://doi.org/10.1142/S2661339520500134">
+{% assign books = site.musings | where: &quot;type&quot;, &quot;book&quot; | sort: &quot;title&quot; %}
+
+
+  
+    {% for book in books %}
+      
+        
+          
+            {{ book.title }}
+            {{ book.content | strip_html | truncatewords:40 }}
+          
+        
+      
+    {% endfor %}">
 
   
 
@@ -167,7 +204,7 @@ DOI: https://doi.org/10.1142/S2661339520500134">
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="page-heading">
-          <h1>A Highschooler’s Guide to GeV-Range Electromagnetism</h1>
+          <h1>Books</h1>
           
 
           
@@ -187,11 +224,25 @@ DOI: https://doi.org/10.1142/S2661339520500134">
     <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
       
 
-      <p>Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.</p>
+      <h1 id="books">Books</h1>
 
-<p>Describe the treatise, practical uses, and any interesting production/teaching notes here. You can include step-by-step diagrams or example calculations.</p>
+<p>A list of items from the <code class="language-plaintext highlighter-rouge">musings</code> collection which are tagged as books.</p>
 
-<p>DOI: <a href="https://doi.org/10.1142/S2661339520500134">https://doi.org/10.1142/S2661339520500134</a></p>
+<div class="container-md">
+  <div class="row">
+    
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title"><a href="/musings/death-of-ivan-ilych/">Death of Ivan Ilyich; Week 43</a></h3>
+            <p class="card-text">“Tolstoy’s The Death of Ivan Ilyich is a stark reflection on mortality, social performance, and what makes a life meaningful. In my notes I focus on … (edit this).”
+</p>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</div>
 
 
       
