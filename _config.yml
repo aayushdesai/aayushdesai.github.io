@@ -36,7 +36,8 @@ index_page: "about-me"
 # Navigation bar links
 navbar-links:
   Home: "/"
-  Publications: "Publications"
+  Publications: "/publications/"
+  Musings: "/musings/"
 
 # Image to show in the navigation bar - works best with a square image
 # Remove this parameter if you don't want an image in the navbar
@@ -96,6 +97,17 @@ plugins:
   
   
 keywords: "astronomy,philosophy,mathematics,galaxies,hypatia,astrolabe"
+
+# Collections for publications and musings. Using collections makes it easy to
+# rename individual items without breaking links — templates will iterate over
+# `site.publications` and `site.musings`.
+collections:
+  publications:
+    output: true
+    permalink: /publications/:name/
+  musings:
+    output: true
+    permalink: /musings/:name/
 
 
 

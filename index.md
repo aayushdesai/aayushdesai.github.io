@@ -21,9 +21,6 @@ I am Aayush Desai, a researcher at the Institute of Science and Technology Austr
 - 📧 [adesai@ista.ac.at](mailto:adesai@ista.ac.at)
 - [![ORCID logo](https://orcid.org/sites/default/files/images/orcid_16x16.png) 0009-0008-9877-5512](https://orcid.org/0009-0008-9877-5512)
 - [![GitHub logo](https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/16px-Octicons-mark-github.svg.png) aayushdesai](https://github.com/aayushdesai)
-- 🏛 [School of Alexandria Archives](https://example.com/hypatia-archives)
-- 📜 [Collected Works](https://example.com/hypatia-works)
-- 🧠 [Neoplatonist Network](https://example.com/neoplatonism)
 
 > “Reserve your right to think, for even to think wrongly is better than not to think at all.”
 
