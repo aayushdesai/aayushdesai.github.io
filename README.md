@@ -24,3 +24,11 @@ npm run build
 The static website is written to `out/`. Copy the verified contents of `out/`
 to `docs/` before committing a new public release. GitHub Pages serves `docs/`
 from the `main` branch.
+
+## Adding a data or model release
+
+Add the reviewed metadata to `content/releases.ts`. Every non-draft entry is
+added to the Data & models index, receives its own route at
+`/data-models/<slug>/`, and is included in the sitemap automatically. The shared
+release page supports files, DOI records, provenance, reproduction steps,
+limitations, related publications, and a preferred citation.

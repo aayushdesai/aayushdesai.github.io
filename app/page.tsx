@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { ScrollProgress } from './research-map';
+import { SiteHeader } from './site-header';
 
 const projects = [
   {
@@ -101,21 +103,7 @@ export default function Home() {
     <main id="top">
       <ScrollProgress />
 
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Aayush Desai, home">
-          AD<span className="wordmark-dot">.</span>
-        </a>
-        <nav className="site-nav" aria-label="Primary navigation">
-          <a href="#work">Work</a>
-          <a href="#publications">Publications</a>
-          <a href="#about">About</a>
-          <a href="#notes">Notes</a>
-          <a href="/Aayush-Alpesh-Desai-CV.pdf" target="_blank" rel="noreferrer">CV</a>
-        </nav>
-        <a className="contact-link" href="mailto:adesai@ista.ac.at">
-          Say hello <span aria-hidden="true">↗</span>
-        </a>
-      </header>
+      <SiteHeader />
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-constellation" aria-hidden="true">
@@ -211,6 +199,12 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        <Link className="archive-gateway" href="/data-models/">
+          <span>Data &amp; models</span>
+          <h3>Work in progress.</h3>
+          <p>The public release archive will open here. <i aria-hidden="true">→</i></p>
+        </Link>
       </section>
 
       <section className="publications-section" id="publications" aria-labelledby="publications-title">
