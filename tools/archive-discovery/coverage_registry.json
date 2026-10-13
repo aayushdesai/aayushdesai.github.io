@@ -1,0 +1,1674 @@
+{
+  "schema_version": 1,
+  "version": "1.1.0",
+  "checked_on": "2026-10-13",
+  "scope": "Local arbitrary-source metadata discovery, selected native-product previews and saved catalogue measurements. Registry listing itself sends no requests or downloads.",
+  "association_policy": "Source association, aperture capture and calibration remain separate evidence requirements. Compact summaries describe returned metadata; selected numerical previews retain native arrays.",
+  "sources": [
+    {
+      "id": "mast-caom-observations",
+      "archive": "mast",
+      "label": "MAST observations",
+      "release": "CAOM; collections returned by service",
+      "route_state": "implemented",
+      "route": "Mast.Caom.Cone through the core search engine.",
+      "bands": [
+        "UV",
+        "optical",
+        "near_ir",
+        "mid_ir"
+      ],
+      "identifiers": [
+        "obsid",
+        "obs_id",
+        "collection"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "image": {
+          "service": "images",
+          "local": "observation_candidates"
+        },
+        "time_series": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        }
+      },
+      "record_kinds": [
+        "observation"
+      ],
+      "advertised_record_kinds": [
+        "observation"
+      ],
+      "callables": [
+        {
+          "module": "archive_discovery",
+          "function": "search_archive",
+          "operation": "cone_metadata",
+          "arguments": {
+            "archive": "mast"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "CAOM cone may return footprint-overlap records with distant pointing centres. Centre separation alone is not a rejection rule.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Bounded resumable observation pagination is implemented; product enumeration is a separate operation. New pagination is verified offline, not with a new live query.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "MAST observation queries",
+          "url": "https://astroquery.readthedocs.io/en/stable/mast/mast_obsquery.html",
+          "supports": "Observation cones and associated product queries are separate operations; obsid identifies product lookup."
+        }
+      ],
+      "next_step": "Validate bounded pagination with a positive control and verify source footprint containment."
+    },
+    {
+      "id": "mast-caom-products",
+      "archive": "mast",
+      "label": "MAST associated products",
+      "release": "CAOM parent observation products",
+      "route_state": "implemented",
+      "route": "Mast.Caom.Products for an explicitly selected numeric obsid.",
+      "bands": [
+        "UV",
+        "optical",
+        "near_ir",
+        "mid_ir"
+      ],
+      "identifiers": [
+        "parent_query_obsid",
+        "dataURI",
+        "productFilename"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        },
+        "image": {
+          "service": "images",
+          "local": "product_metadata"
+        },
+        "time_series": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        }
+      },
+      "record_kinds": [
+        "product"
+      ],
+      "advertised_record_kinds": [
+        "product"
+      ],
+      "callables": [
+        {
+          "module": "mast_products",
+          "function": "list_products",
+          "operation": "observation_product_metadata",
+          "arguments": {}
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Parent observation must be selected first; product association is inherited and remains a source candidate.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Bounded resumable product pagination is implemented. Returned products can include images and supporting files; no native spectrum or light curve is validated.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "MAST observation queries",
+          "url": "https://astroquery.readthedocs.io/en/stable/mast/mast_obsquery.html",
+          "supports": "Observation cones and associated product queries are separate operations; obsid identifies product lookup."
+        }
+      ],
+      "next_step": "Verify source capture and product type before scientific use."
+    },
+    {
+      "id": "gemini-canonical",
+      "archive": "gemini",
+      "label": "Gemini canonical files",
+      "release": "Current canonical file metadata",
+      "route_state": "implemented",
+      "route": "jsonsummary/canonical pointing cone.",
+      "bands": [
+        "optical",
+        "near_ir",
+        "mid_ir"
+      ],
+      "identifiers": [
+        "filename",
+        "observation_id",
+        "program_id",
+        "data_label"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        },
+        "image": {
+          "service": "images",
+          "local": "product_metadata"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "observation_product"
+      ],
+      "callables": [
+        {
+          "module": "archive_discovery",
+          "function": "search_archive",
+          "operation": "cone_metadata",
+          "arguments": {
+            "archive": "gemini"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Pointing-centre cone; the named source may be outside a slit, detector, or extraction.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Current metadata access is blocked: HTTP 403 with IP-associated login required. Historical successful public responses do not establish current access. No authentication or further query was attempted.",
+        "completeness": "Service cap and complete enumeration remain unverified; a 500-row response was partial. No undocumented pagination limit is assumed.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "Gemini archive API",
+          "url": "https://archive.gemini.edu/help/api.html",
+          "supports": "JSON file metadata include mode, spectroscopy, positions, filters, dates, release and reduction; canonical selects current file records."
+        }
+      ],
+      "next_step": "Resolve the current HTTP 403 access block before controlled cap/interval validation; preserve prior successful and failed evidence separately."
+    },
+    {
+      "id": "eso-obscore",
+      "archive": "eso",
+      "label": "ESO reduced products",
+      "release": "ivoa.ObsCore only",
+      "route_state": "implemented",
+      "route": "ESO TAP ObsCore product-position cone; separate raw table is excluded.",
+      "bands": [
+        "optical",
+        "near_ir",
+        "mid_ir"
+      ],
+      "identifiers": [
+        "obs_publisher_did",
+        "obs_id",
+        "obs_collection"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "product_metadata"
+        },
+        "image": {
+          "service": "images",
+          "local": "product_metadata"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "observation_product"
+      ],
+      "callables": [
+        {
+          "module": "archive_discovery",
+          "function": "search_archive",
+          "operation": "cone_metadata",
+          "arguments": {
+            "archive": "eso"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Current query uses product centre within cone. s_region is retained without evaluating containment.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata route implemented; both current 20-second controls timed out. This is live unavailability, not evidence of no observations.",
+        "completeness": "Reduced ObsCore only; raw dbo.raw is not searched. Both current bounded live controls are unavailable after read timeouts.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "ESO programmatic access",
+          "url": "https://archive.eso.org/programmatic/",
+          "supports": "TAP, ObsCore, DataLink and raw/reduced dataset services are distinct."
+        }
+      ],
+      "next_step": "After the user reauthorises work, resolve live timeout/performance limits before a positive/empty validation; raw coverage remains separate."
+    },
+    {
+      "id": "gtc-public",
+      "archive": "gtc",
+      "label": "GTC archive",
+      "release": "General archive and published user-reduced image routes",
+      "route_state": "blocked",
+      "route": "Explicit search_optical blocked-status handler; makes no archive request.",
+      "bands": [
+        "optical",
+        "near_ir"
+      ],
+      "identifiers": [
+        "programme",
+        "instrument",
+        "archive dataset identifier"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "observation_product",
+        "image"
+      ],
+      "callables": [
+        {
+          "module": "optical_metadata",
+          "function": "search_optical",
+          "operation": "blocked_status",
+          "arguments": {
+            "archive": "gtc"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "GTC is unsupported in the generic core. Image SIA endpoints do not establish full spectroscopy or raw-archive coverage.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "GTC archive help",
+          "url": "https://gtc.sdc.cab.inta-csic.es/gtc/help/overview.jsp",
+          "supports": "Position, name, programme and instrument discovery is documented in the archive interface."
+        }
+      ],
+      "next_step": "Establish a working supported general metadata route and positive control."
+    },
+    {
+      "id": "keck-koa",
+      "archive": "keck",
+      "label": "Keck Observatory Archive",
+      "release": "KOA public LRIS/DEIMOS/ESI raw instrument tables",
+      "route_state": "implemented",
+      "route": "Bounded selected raw-table pointing cones through optical_metadata.search_optical.",
+      "bands": [
+        "optical",
+        "near_ir",
+        "mid_ir"
+      ],
+      "identifiers": [
+        "KOAID",
+        "instrument",
+        "programme"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "photometry": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "image": {
+          "service": "images",
+          "local": "observation_candidates"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "observation_product"
+      ],
+      "callables": [
+        {
+          "module": "optical_metadata",
+          "function": "search_optical",
+          "operation": "selected_raw_pointing_metadata",
+          "arguments": {
+            "archive": "keck"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Selected raw-table pointing-centre cones; native J2000 equinox retained separately from query ICRS and observation epoch.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "TAP supports public data. Protected data use PI-authorised PyKOA access, which is not configured here.",
+        "completeness": "LRIS/DEIMOS/ESI selected raw tables only. LRIS positive returned four/retained three with OVERFLOW; malformed empty control is unavailable, not negative. Facility query_complete always false; other raw/reduced/protected/contributed routes are unsearched.",
+        "product_links": "Native filehand is a filesystem path. product_url remains null; no public file URL or extracted spectrum is invented."
+      },
+      "references": [
+        {
+          "title": "KOA TAP and PyKOA guide",
+          "url": "https://koa.ipac.caltech.edu/UserGuide/PyKOA/TAPClients.html",
+          "supports": "TAP is public only; PyKOA covers raw and selected quick-look levels, with DSI level-1 client limitations."
+        }
+      ],
+      "next_step": "In a later authorised stage, establish a valid empty raw control and verify reduced-product relationships; current LRIS raw positive is partial."
+    },
+    {
+      "id": "desi-dr1",
+      "archive": "desi",
+      "label": "DESI public spectra",
+      "release": "DESI DR1 iron; zpix HEALPix coadds only",
+      "route_state": "implemented",
+      "route": "NOIRLab Data Lab desi_dr1.zpix mean-fibre-position cone through spectral_routes.search_spectra.",
+      "bands": [
+        "optical"
+      ],
+      "identifiers": [
+        "TARGETID",
+        "SPARCL record identifier",
+        "release",
+        "survey",
+        "programme",
+        "HEALPix"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "none",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "spectrum"
+      ],
+      "callables": [
+        {
+          "module": "spectral_routes",
+          "function": "search_spectra",
+          "operation": "coadded_spectrum_metadata",
+          "arguments": {
+            "archive": "desi"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Mean actual fibre-position cone; separation and native IDs retained without nearest-source selection.",
+        "epoch": "mean_mjd is the mean shutter-open time of contributing exposures; it is not every exposure epoch.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "A catalogue/fibre association requires explicit source identity and observation checks.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "DR1 iron HEALPix coadds only. Individual exposures, nightly/tile coadds and other releases are not enumerated. No pagination/retry.",
+        "product_links": "Documented DR1 native paths use returned survey/programme/HEALPix. A file contains many targets; select exact TARGETID, never row zero. Link construction is not access validation."
+      },
+      "references": [
+        {
+          "title": "DESI data access",
+          "url": "https://data.desi.lbl.gov/doc/access/",
+          "supports": "Catalogue database and SPARCL spectral access supplement release-specific public files."
+        }
+      ],
+      "next_step": "Select exact TARGETID in a separately bounded native coadd and verify source/fibre association."
+    },
+    {
+      "id": "sdss-v-dr19",
+      "archive": "sdss",
+      "label": "SDSS-V DR19 targets",
+      "release": "DR19 Valis target cone",
+      "route_state": "implemented",
+      "route": "Valis query/cone; target-to-spectrum resolution is not implemented.",
+      "bands": [
+        "optical",
+        "near_ir"
+      ],
+      "identifiers": [
+        "sdss_id",
+        "catalogid",
+        "release label"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "target_metadata",
+          "local": "catalogue_candidates"
+        },
+        "photometry": {
+          "service": "none",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "catalogue_target"
+      ],
+      "advertised_record_kinds": [
+        "catalogue_target",
+        "spectrum"
+      ],
+      "callables": [
+        {
+          "module": "archive_discovery",
+          "function": "search_archive",
+          "operation": "target_cone_metadata",
+          "arguments": {
+            "archive": "sdss"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Only DR19 target metadata is emitted. has_been_observed does not enumerate or verify a spectrum.",
+        "product_links": "Current target rows have no product URL; resolving native spectral products is pending."
+      },
+      "references": [
+        {
+          "title": "SDSS Zora and Valis",
+          "url": "https://sdss.org/dr19/data_access/zora_and_valis/",
+          "supports": "Target cones and target-specific metadata/spectra are distinct endpoints; legacy SDSS-IV access is separate."
+        }
+      ],
+      "next_step": "Add target-specific spectral metadata and retain legacy release separation."
+    },
+    {
+      "id": "sdss-legacy-dr17",
+      "archive": "sdss",
+      "label": "SDSS legacy imaging and spectra",
+      "release": "DR17 SDSS-I/II/III/IV holdings",
+      "route_state": "documented",
+      "route": "Legacy CAS catalogue and SAS/SAW data access, independent of Valis target discovery.",
+      "bands": [
+        "optical",
+        "near_ir",
+        "u",
+        "g",
+        "r",
+        "i",
+        "z"
+      ],
+      "identifiers": [
+        "objID",
+        "specObjID",
+        "plate",
+        "MJD",
+        "fibre",
+        "APOGEE identifier"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "spectrum",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "No local legacy adapter. Optical, APOGEE, MaNGA and individual visits/coadds require explicit separate operations.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "SDSS DR17 data access",
+          "url": "https://www.sdss4.org/dr17/data_access/",
+          "supports": "Legacy catalogue and file services include imaging, optical and infrared spectral products."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "sdss-dr17-optical-spectra",
+      "archive": "sdssspectra",
+      "label": "SDSS DR17 optical spectra",
+      "release": "DR17 SpecObjAll; supported native reductions 26/103/104/v5_13_2",
+      "route_state": "implemented",
+      "route": "NOIRLab Data Lab sdss_dr17.specobjall fibre-position cone through spectral_routes.search_spectra.",
+      "bands": [
+        "optical"
+      ],
+      "identifiers": [
+        "specobjid",
+        "plate",
+        "MJD",
+        "fibre",
+        "run2d"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "none",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "spectrum"
+      ],
+      "callables": [
+        {
+          "module": "spectral_routes",
+          "function": "search_spectra",
+          "operation": "optical_spectrum_metadata",
+          "arguments": {
+            "archive": "sdssspectra"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Fibre-coordinate cone retains repeats, QA and sky entries. Native primary RA/Dec can describe plate centre; use SPECOBJ PLUG_RA/DEC for source checks.",
+        "epoch": "Plate MJD describes observing night, not a precise photon timestamp; retains archive_night_mjd.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "DR17 optical SpecObjAll only. APOGEE, MaNGA, MaStar, SDSS-V products and other release reductions are excluded. Unknown run2d retains metadata without a guessed link.",
+        "product_links": "Supported native URLs use returned plate/MJD/fibre/run2d. The selected 604800-byte control has 3845 COADD samples, native inverse variance and pixel masks; units come from native BUNIT and the official format."
+      },
+      "references": [
+        {
+          "title": "Data Lab SDSS holdings",
+          "url": "https://datalab.noirlab.edu/data/sdss",
+          "supports": "SpecObjAll includes repeat, QA and sky rows; optical spectra are separate from legacy imaging and infrared surveys."
+        },
+        {
+          "title": "SDSS spectral format",
+          "url": "https://www.sdss4.org/dr17/spectro/spectro_basics/",
+          "supports": "COADD flux/loglam/ivar/masks and scaled physical flux units; plate coordinates differ from source plug coordinates."
+        }
+      ],
+      "next_step": "Validate a positive DR17 cone at the native-control source and retain fibre/source identity checks."
+    },
+    {
+      "id": "lamost-release-metadata",
+      "archive": "lamost",
+      "label": "LAMOST spectral metadata",
+      "release": "Default DR12 v2.0 LRS/MRS; explicitly selected release branches",
+      "route_state": "implemented",
+      "route": "Release-specific SSA metadata through lamost_metadata.search_lamost; default DR12 v2.0 LRS/MRS.",
+      "bands": [
+        "optical"
+      ],
+      "identifiers": [
+        "obsid",
+        "plan",
+        "spectrograph",
+        "fibre",
+        "date",
+        "release",
+        "MRS component"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "product_metadata"
+        },
+        "photometry": {
+          "service": "none",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "observation_product"
+      ],
+      "advertised_record_kinds": [
+        "spectrum"
+      ],
+      "callables": [
+        {
+          "module": "lamost_metadata",
+          "function": "search_lamost",
+          "operation": "release_spectral_metadata",
+          "arguments": {}
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Retain actual observation epoch and separate MRS epoch/component records; release versions are not collapsed.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Default DR12 v2.0 LRS/MRS only; DR12 v1.1 and DR11 v2.0 are explicit branch choices. VOTable completion is bounded by MAXREC and merged budget; JSON completion remains unconfirmed. Catalogue magnitudes are context, not separately enumerated photometry.",
+        "product_links": "Use native access references returned by the release service; no invented file path or synthetic spectrum."
+      },
+      "references": [
+        {
+          "title": "LAMOST DR12 query introduction",
+          "url": "https://www.lamost.org/dr12/v2.0/doc/query-introduction",
+          "supports": "LRS and MRS queries, VO services and release-specific data access are documented."
+        }
+      ],
+      "next_step": "Validate the generic adapter with a bounded live positive control when authorised."
+    },
+    {
+      "id": "gaia-dr3",
+      "archive": "gaia",
+      "label": "Gaia DR3",
+      "release": "Gaia DR3",
+      "route_state": "documented",
+      "route": "Gaia Archive TAP for source flags and DataLink for spectral/epoch products.",
+      "bands": [
+        "optical",
+        "G",
+        "BP",
+        "RP",
+        "RVS"
+      ],
+      "identifiers": [
+        "source_id",
+        "release",
+        "ref_epoch"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "native_spectra",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "time_series",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "spectrum",
+        "time_series"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Read ref_epoch and actual photometric epochs from native metadata; a catalogue coordinate is not an observation epoch.",
+        "proper_motion": "Gaia astrometry can support future epoch propagation; the current core does not apply it.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Selected sources have XP/RVS or epoch products; query has_xp/has_rvs/has_epoch_photometry and DataLink availability explicitly.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "Gaia DR3 software tools",
+          "url": "https://www.cosmos.esa.int/web/gaia/dr3-software-tools",
+          "supports": "DR3 provides BP/RP spectra and selected DataLink spectral and epoch-photometry products."
+        },
+        {
+          "title": "Gaia programmatic access",
+          "url": "https://www.cosmos.esa.int/web/gaia-users/archive/programmatic-access",
+          "supports": "TAP/source metadata and DataLink product retrieval use different operations; documentation page retrieval was restricted in this review."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "panstarrs-dr2",
+      "archive": "panstarrs",
+      "label": "Pan-STARRS1 photometry",
+      "release": "PS1 DR2; DR1 separate",
+      "route_state": "documented",
+      "route": "MAST Catalogs API mean/stack/detection tables; image route separate from CAOM.",
+      "bands": [
+        "optical",
+        "g",
+        "r",
+        "i",
+        "z",
+        "y"
+      ],
+      "identifiers": [
+        "objID",
+        "detectID",
+        "release",
+        "table"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "No local PS1 catalogue adapter. MAST CAOM observation searches do not enumerate PS1 catalogue measurements.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "PS1 data access",
+          "url": "https://outerspace.stsci.edu/spaces/PANSTARRS/pages/298812239/How%2Bto%2Bretrieve%2Band%2Buse%2BPS1%2Bdata",
+          "supports": "PS1 photometry catalogues have a distinct API with release and table metadata."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "ztf-irsa",
+      "archive": "ztf",
+      "label": "ZTF light curves",
+      "release": "Public IRSA release chosen at query time",
+      "route_state": "documented",
+      "route": "IRSA ZTF light-curve API; image API and forced photometry are separate.",
+      "bands": [
+        "optical",
+        "g",
+        "r",
+        "i"
+      ],
+      "identifiers": [
+        "object ID",
+        "field",
+        "filter",
+        "CCD",
+        "quadrant",
+        "release"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "time_series",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "time_series",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "time_series",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public light curves can be queried without proprietary rights; restricted holdings require authorised credentials.",
+        "completeness": "No local adapter. Public release cadence and access do not imply proprietary or forced-photometry coverage.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "IRSA program interfaces",
+          "url": "https://irsa.ipac.caltech.edu/voapi.html",
+          "supports": "IRSA exposes catalogue/image services and a separate ZTF light-curve API."
+        },
+        {
+          "title": "ZTF light-curve API",
+          "url": "https://irsa.ipac.caltech.edu/docs/program_interface/ztf_lightcurve_api.html",
+          "supports": "Official indexed documentation identifies dedicated photometry-over-time access; full page timed out in this review."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "wise-irsa",
+      "archive": "wise",
+      "label": "WISE and NEOWISE photometry",
+      "release": "AllWISE and NEOWISE releases must remain distinct",
+      "route_state": "documented",
+      "route": "IRSA catalogue/TAP and image interfaces; per-exposure photometry tables selected explicitly.",
+      "bands": [
+        "mid_ir",
+        "W1",
+        "W2",
+        "W3",
+        "W4"
+      ],
+      "identifiers": [
+        "designation",
+        "source_id",
+        "release",
+        "frame identifier"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "time_series",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "time_series",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "No local adapter. AllWISE mean photometry and WISE/NEOWISE exposure photometry have different temporal and band coverage.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "IRSA program interfaces",
+          "url": "https://irsa.ipac.caltech.edu/voapi.html",
+          "supports": "IRSA exposes catalogue/image services and a separate ZTF light-curve API."
+        },
+        {
+          "title": "AllWISE catalogue documentation",
+          "url": "https://irsa.ipac.caltech.edu/data/WISE/docs/release/AllWISE/expsup/sec2_3a.html",
+          "supports": "AllWISE catalogue provides band-specific source photometry and quality information."
+        },
+        {
+          "title": "IRSA image server",
+          "url": "https://irsa.ipac.caltech.edu/ibe/ibe_search_api.html",
+          "supports": "WISE/NEOWISE image queries can use frame, position and band metadata."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "2mass-irsa",
+      "archive": "2mass",
+      "label": "2MASS photometry",
+      "release": "2MASS All-Sky PSC/XSC",
+      "route_state": "documented",
+      "route": "IRSA TAP/catalogue cone, with image atlas queried separately.",
+      "bands": [
+        "near_ir",
+        "J",
+        "H",
+        "Ks"
+      ],
+      "identifiers": [
+        "designation",
+        "scan",
+        "jdate",
+        "catalogue"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Use native observation date where available; J2000 coordinate labels do not specify measurement epoch.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "Coverage is limited to the named route, release and query budget; an unavailable route is not a negative result.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "IRSA program interfaces",
+          "url": "https://irsa.ipac.caltech.edu/voapi.html",
+          "supports": "IRSA exposes catalogue/image services and a separate ZTF light-curve API."
+        },
+        {
+          "title": "2MASS All-Sky products",
+          "url": "https://irsa.ipac.caltech.edu/2MASS/download/allsky/README_ftp.html",
+          "supports": "PSC/XSC positions and photometry and J/H/Ks image atlas are distinct holdings."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "asas-sn-skypatrol",
+      "archive": "asas-sn",
+      "label": "ASAS-SN Sky Patrol",
+      "release": "Sky Patrol v2",
+      "route_state": "documented",
+      "route": "Published Sky Patrol web interface and Python client.",
+      "bands": [
+        "optical",
+        "V",
+        "g"
+      ],
+      "identifiers": [
+        "Sky Patrol catalogue identifier",
+        "coordinate query"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "time_series",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "time_series",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "time_series"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "No local adapter. Catalogue-selected light curves and a requested arbitrary-position extraction require different association checks.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "ASAS-SN Sky Patrol v2 paper",
+          "url": "https://arxiv.org/abs/2304.03791",
+          "supports": "Survey authors describe public light curves, sky queries and a Python client; the documentation page timed out in this review."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "atlas-forced",
+      "archive": "atlas",
+      "label": "ATLAS forced photometry",
+      "release": "Server-selected observation history",
+      "route_state": "documented",
+      "route": "ATLAS forced-photometry server API; asynchronous user-account queue.",
+      "bands": [
+        "optical"
+      ],
+      "identifiers": [
+        "task identifier",
+        "coordinates",
+        "observation epoch"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "time_series",
+          "local": "none"
+        },
+        "image": {
+          "service": "none",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "time_series",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "time_series"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Forced flux at a specified position is not by itself a detection or a proven association.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "User account/token and queue limits must be checked before implementation; no credentials are configured here.",
+        "completeness": "No local adapter. Negative fluxes, uncertainties and quality flags must remain native; no detection-only filtering.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "ATLAS server source",
+          "url": "https://github.com/lukeshingles/atlasserver",
+          "supports": "The maintained server project documents public forced-photometry access and the official server location."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "skymapper-dr4",
+      "archive": "skymapper",
+      "label": "SkyMapper photometry",
+      "release": "SkyMapper DR4",
+      "route_state": "documented",
+      "route": "Official SCS/TAP distilled and detection catalogues plus SIA image cutouts.",
+      "bands": [
+        "optical",
+        "u",
+        "v",
+        "g",
+        "r",
+        "i",
+        "z"
+      ],
+      "identifiers": [
+        "object_id",
+        "image_id",
+        "release"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "none",
+          "local": "none"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "none"
+        },
+        "image": {
+          "service": "images",
+          "local": "none"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [],
+      "advertised_record_kinds": [
+        "catalogue_detection",
+        "image"
+      ],
+      "callables": [],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "ICRS cone candidates; a nearest neighbour is not selected as the source.",
+        "epoch": "Input epoch is retained; observation epochs may be missing.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public metadata only. Restricted products require archive access rights.",
+        "completeness": "No local adapter. Survey footprint, per-band measurement presence and quality flags require explicit checks.",
+        "product_links": "Preserve links supplied by the archive; link discovery does not download or validate native files."
+      },
+      "references": [
+        {
+          "title": "SkyMapper access",
+          "url": "https://skymapper.anu.edu.au/how-to-access/",
+          "supports": "DR4 provides cone/TAP catalogue searches and image cutouts."
+        },
+        {
+          "title": "SkyMapper DR4 content",
+          "url": "https://skymapper.anu.edu.au/data-release/dr4/",
+          "supports": "Reduced images, detection/merged photometry and band-specific quality flags are distinct."
+        }
+      ],
+      "next_step": "Implement a bounded metadata adapter and validate known positive and negative controls."
+    },
+    {
+      "id": "xmm-5xmm-dr15-and-log",
+      "archive": "xmm",
+      "label": "XMM-Newton sources and pointings",
+      "release": "5XMM-DR15 and current xmmmaster log",
+      "route_state": "implemented",
+      "route": "Bounded catalogue-source cone plus separate pointing-centre log through xray_metadata.search_xray.",
+      "bands": [
+        "X_ray"
+      ],
+      "identifiers": [
+        "release-scoped source identifier",
+        "obsid",
+        "route branch"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "native_measurements"
+        },
+        "image": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "catalogue_source",
+        "observation"
+      ],
+      "advertised_record_kinds": [
+        "catalogue_source",
+        "observation"
+      ],
+      "callables": [
+        {
+          "module": "xray_metadata",
+          "function": "search_xray",
+          "operation": "catalogue_measurements_and_pointings",
+          "arguments": {
+            "archive": "xmm"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Catalogue source cone and independent pointing-centre cone. Neither proves intended-source identity or aperture/detector capture.",
+        "epoch": "Stacked catalogue measurements retain their contributing interval; observation_mjd is missing for stacks, not fabricated as a single epoch.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public catalogue/log metadata. Observation-directory links depend on returned public/mirror flags; protected holdings are not enumerated.",
+        "completeness": "5XMM-DR15 unique stacked sources plus xmmmaster cones only; xmmstack per-observation detections/upper limits and native spectra/light curves are unsearched.",
+        "product_links": "Pointing rows may supply mixed-product observation-directory links. Catalogue fluxes are native numerical measurements; no native spectrum or light curve has been read."
+      },
+      "references": [
+        {
+          "title": "HEASARC 5XMM-DR15",
+          "url": "https://heasarc.gsfc.nasa.gov/w3browse/xmm-newton/xmmssc.html",
+          "supports": "Combined catalogue fluxes use total 0.2-12 keV and five component bands with energy-conversion dependence."
+        },
+        {
+          "title": "XMM observation log",
+          "url": "https://heasarc.gsfc.nasa.gov/W3Browse/xmm-newton/xmmmaster.html",
+          "supports": "Pointings, release flags and mirror availability are separate from source measurements."
+        }
+      ],
+      "next_step": "Enumerate one selected observation and verify source extraction before adding spectrum/light-curve coverage."
+    },
+    {
+      "id": "chandra-csc21-and-log",
+      "archive": "chandra",
+      "label": "Chandra sources and pointings",
+      "release": "CSC 2.1 CLI and current chanmaster log",
+      "route_state": "implemented",
+      "route": "Bounded catalogue-source cone plus separate pointing-centre log through xray_metadata.search_xray.",
+      "bands": [
+        "X_ray"
+      ],
+      "identifiers": [
+        "release-scoped source identifier",
+        "obsid",
+        "route branch"
+      ],
+      "capabilities": {
+        "spectrum": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "photometry": {
+          "service": "catalogue_photometry",
+          "local": "native_measurements"
+        },
+        "image": {
+          "service": "observation_products",
+          "local": "observation_candidates"
+        },
+        "time_series": {
+          "service": "none",
+          "local": "none"
+        }
+      },
+      "record_kinds": [
+        "catalogue_source",
+        "observation"
+      ],
+      "advertised_record_kinds": [
+        "catalogue_source",
+        "observation"
+      ],
+      "callables": [
+        {
+          "module": "xray_metadata",
+          "function": "search_xray",
+          "operation": "catalogue_measurements_and_pointings",
+          "arguments": {
+            "archive": "chandra"
+          }
+        }
+      ],
+      "validation": {
+        "offline": false,
+        "live": false
+      },
+      "evidence": [
+        {
+          "kind": "limited_handoff",
+          "path": "COVERAGE.md",
+          "claim": "Public source coverage and limits; empirical control receipts are excluded from this source-only package."
+        }
+      ],
+      "limits": {
+        "position": "Catalogue source cone and independent pointing-centre cone. Neither proves intended-source identity or aperture/detector capture.",
+        "epoch": "CSC measurement epoch is not returned and stays missing. It does not supply a light curve.",
+        "proper_motion": "Current core does not propagate proper motion. Supply a suitable position and radius; motion remains an association limit.",
+        "footprint": "Detector, slit, fibre and extraction containment are not independently verified.",
+        "access": "Public catalogue/log metadata. Observation-directory links depend on returned public/mirror flags; protected holdings are not enumerated.",
+        "completeness": "Pinned CSC 2.1 catalogue plus chanmaster pointing cones. CLI query_complete remains false; CSC 2.2, source extraction and observation-level measurements remain gaps.",
+        "product_links": "Pointing rows may supply mixed-product observation-directory links. Catalogue fluxes are native numerical measurements; no native spectrum or light curve has been read."
+      },
+      "references": [
+        {
+          "title": "CSC 2.1 CLI",
+          "url": "https://cxc.cfa.harvard.edu/csc2.1/cli/index.html",
+          "supports": "Explicit rel2.1 getProperties route; no VOTable query-completion marker."
+        },
+        {
+          "title": "CSC master columns",
+          "url": "https://cxc.cfa.harvard.edu/csc2.1/columns/master.html",
+          "supports": "Native broad/wide aperture fluxes have absolute confidence bounds."
+        },
+        {
+          "title": "CSC 2.2 CLI",
+          "url": "https://cxc.cfa.harvard.edu/csc2.2/cli/index.html",
+          "supports": "A newer documented release exists; current implementation does not search it."
+        }
+      ],
+      "next_step": "Enumerate one selected observation and verify source extraction before adding spectrum/light-curve coverage."
+    }
+  ]
+}

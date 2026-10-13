@@ -32,3 +32,7 @@ added to the Data & models index, receives its own route at
 `/data-models/<slug>/`, and is included in the sitemap automatically. The shared
 release page supports files, DOI records, provenance, reproduction steps,
 limitations, related publications, and a preferred citation.
+
+## Archive Discovery portal source
+
+The [archive portal source](tools/archive-discovery/README.md) includes the local query service, static interface, numerical previews and offline checks. It is saved here for continued development. Public query hosting and raw-spectrum reduction remain pending; this source addition does not deploy a query backend.

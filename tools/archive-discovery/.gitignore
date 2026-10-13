@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+portal/.runtime/
+portal/.plot-cache/
+portal/runs/
+*.fits
+*.response

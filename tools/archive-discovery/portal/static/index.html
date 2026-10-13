@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find traceable astronomical archive metadata for a named source or sky position.">
+  <title>Archive Discovery · Source data portal</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Archive Discovery home"><span class="brand-mark" aria-hidden="true">✦</span> Archive Discovery</a>
+    <span class="local-badge">Local research portal</span>
+  </header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">ASTRONOMICAL SOURCE DATA</p>
+      <h1>Find the data behind your source.</h1>
+      <p>Find observations and native products for a source. View supported spectra and measured fluxes with their units, provenance and archive limits.</p>
+    </div>
+    <div class="workspace">
+      <section class="search-panel panel" aria-labelledby="search-title">
+        <div class="section-heading"><span class="step-number">01</span><h2 id="search-title">Choose a source</h2></div>
+        <div class="input-tabs" role="tablist" aria-label="Source input method">
+          <button id="name-tab" type="button" role="tab" aria-selected="true" aria-controls="name-input" tabindex="0">Source name</button>
+          <button id="position-tab" type="button" role="tab" aria-selected="false" aria-controls="position-input" tabindex="-1">Coordinates</button>
+        </div>
+        <form id="source-form">
+          <div id="name-input" role="tabpanel" aria-labelledby="name-tab">
+            <label for="source-name">Name or catalogue identifier</label>
+            <input id="source-name" name="name" type="text" placeholder="e.g. M101 or Gaia DR3 identifier" maxlength="512" autocomplete="off">
+            <p class="field-hint">Resolve the name, then confirm the intended source.</p>
+          </div>
+          <div id="position-input" role="tabpanel" aria-labelledby="position-tab" hidden>
+            <div class="field-row">
+              <div><label for="ra">Right ascension</label><input id="ra" name="ra" type="number" min="0" max="359.999999999" step="any" placeholder="Degrees"></div>
+              <div><label for="dec">Declination</label><input id="dec" name="dec" type="number" min="-90" max="90" step="any" placeholder="Degrees"></div>
+            </div>
+            <p class="field-hint">ICRS coordinates in decimal degrees.</p>
+          </div>
+          <div class="field-row search-options">
+            <div><label for="radius">Search radius <span>(arcsec)</span></label><input id="radius" name="radius_arcsec" type="number" min="0.000001" max="3600" step="any" value="5" required></div>
+            <div><label for="epoch">Position epoch <span>(optional)</span></label><input id="epoch" name="epoch" type="number" step="any" placeholder="Julian year"></div>
+          </div>
+          <p class="limit-note">Epoch is recorded. Proper motion is not applied by the current search.</p>
+          <fieldset class="archive-fieldset">
+            <legend><span class="step-number">02</span> Select archives</legend>
+            <p class="field-hint">Unavailable and unsupported routes stay visible in the report.</p>
+            <div id="archive-options" class="archive-options"><p class="muted">Loading archive coverage…</p></div>
+          </fieldset>
+          <button id="submit-source" class="primary-button" type="submit">Resolve source name <span aria-hidden="true">→</span></button>
+        </form>
+        <section id="identity-panel" class="identity-panel" aria-labelledby="identity-title" hidden>
+          <h3 id="identity-title">Confirm the source</h3>
+          <p id="identity-summary" class="field-hint"></p>
+          <div id="identity-candidates"></div>
+          <label class="confirm-label"><input id="confirm-source" type="checkbox"> I confirm this is the source I intend to search.</label>
+          <button id="search-confirmed" type="button" class="primary-button" disabled>Search selected archives <span aria-hidden="true">→</span></button>
+        </section>
+        <details class="coverage-details"><summary>Coverage guide and limits</summary><div id="coverage-guide"></div></details>
+      </section>
+      <section class="results-panel" aria-labelledby="results-title">
+        <div class="results-heading"><div><p class="eyebrow">SOURCE INVENTORY</p><h2 id="results-title">Archive results</h2></div><span id="run-phase" class="phase-badge">Ready</span></div>
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+        <div id="empty-state" class="empty-state panel">
+          <div class="empty-orbit" aria-hidden="true"><span>✦</span></div>
+          <h3>Your source inventory starts here.</h3>
+          <p>Enter a source name or sky position. The portal lists metadata candidates and keeps each archive’s coverage limits visible.</p>
+          <div class="empty-types"><span>Spectra</span><span>Photometry &amp; images</span><span>Time series</span></div>
+          <div class="demo-actions">
+
+
+
+          </div>
+          <p class="demo-hint">Run the local service to search archives and preview your selected products.</p>
+        </div>
+        <div id="results-content" hidden>
+          <div id="target-summary" class="target-summary panel"></div>
+          <section id="product-preview" class="visual-panel panel" aria-labelledby="preview-title" hidden>
+            <div class="visual-heading"><div><p class="eyebrow">SELECTED NATIVE PRODUCT</p><h3 id="preview-title">Product preview</h3></div><button id="close-preview" type="button" class="small-button">Close preview</button></div>
+            <p id="preview-status" class="visual-status" role="status" aria-live="polite"></p>
+            <div id="preview-canvas" class="visual-canvas" hidden><img id="preview-image" class="visual-image" alt="Plot rendered from the selected native archive product, with provider units and masks."></div>
+            <div id="preview-series" class="preview-series"></div>
+            <p id="preview-association" class="preview-caveat">Source association, aperture capture and calibration remain unverified.</p>
+            <div id="preview-warnings" class="preview-warnings"></div>
+            <nav id="preview-links" class="preview-links" aria-label="Selected product and plot files"></nav>
+            <details id="preview-provenance"><summary>Product provenance</summary><div id="preview-provenance-body"></div></details>
+          </section>
+          <section id="target-overview" class="source-summary panel" aria-labelledby="overview-title" hidden>
+            <h3 id="overview-title">Available source data</h3>
+            <div id="source-data-families"></div>
+            <p class="visual-caption">These are the returned source candidates and product references. Preview a selected item to inspect its native values, units and masks.</p>
+          </section>
+          <section class="status-section" aria-labelledby="coverage-title"><h3 id="coverage-title">Archive coverage</h3><div id="archive-statuses" class="archive-statuses"></div></section>
+          <nav id="exports" class="exports" aria-label="Download metadata exports" hidden></nav>
+          <div class="inventory-heading"><h3>Discovered products and records</h3><button id="back-to-target" type="button" class="small-button" hidden>Back to target data</button><label for="record-filter" class="sr-only">Filter records</label><input id="record-filter" type="search" placeholder="Filter identifiers, instruments or archives"></div>
+          <p class="association-note">These records are source candidates. Pointing or catalogue matches do not verify detector, slit, fibre or extraction capture. Product links do not establish calibration or scientific readiness.</p>
+          <div id="result-groups"></div>
+        </div>
+      </section>
+    </div>
+    <footer>Native previews open only the selected product. Source association, aperture capture and calibration require their own evidence. Archive coverage and access limits remain visible.</footer>
+  </main>
+</body>
+</html>

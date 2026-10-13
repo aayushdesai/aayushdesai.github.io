@@ -1,0 +1,4 @@
+# Optional native-product readers and scientific figures; core engine uses stdlib.
+astropy==8.0.1
+matplotlib==3.11.2
+numpy==2.5.4
