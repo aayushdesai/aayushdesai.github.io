@@ -35,7 +35,7 @@ const publications = [
     title:
       'Circumstellar interaction in the extreme white dwarf merger remnant ZTF J1901+1458: A new class of white dwarf merger remnants with X-ray emission',
     authors: 'A. Desai et al.',
-    venue: 'Astronomy & Astrophysics · published online 7 July 2026',
+    venue: 'Astronomy & Astrophysics · 712, A230',
     note: 'First author',
     doi: '10.1051/0004-6361/202557035',
   },
@@ -50,7 +50,7 @@ const publications = [
   },
   {
     year: '2026',
-    title: 'Near-degeneracy effects in quadrupolar mixed modes',
+    title: 'Near-degeneracy effects in quadrupolar mixed modes: From an asymptotic description to data fitting',
     authors: 'B. R. B. Liagre, A. Desai, L. Einramhof & L. Bugnet',
     venue: 'Astronomy & Astrophysics · 707, A321',
     note: 'Second author of four',
@@ -59,7 +59,7 @@ const publications = [
   {
     year: '2026',
     title:
-      'A half ring of ionized circumstellar material trapped in the magnetosphere of a white dwarf merger remnant',
+      'A half ring of ionized circumstellar material trapped in the magnetosphere of a white dwarf merger remnant: A new class of white dwarf merger remnants with X-ray emission',
     authors: 'A. A. Cristea et al., including A. Desai',
     venue: 'Astronomy & Astrophysics · 706, A188',
     note: 'Seventh author',
