@@ -1,4 +1,4 @@
-# Archive Discovery — local source-data portal 0.7.0
+# Archive Discovery — local source-data portal, scientific previews 0.7.1
 
 Enter a source name or ICRS coordinates, inspect archive status and source candidates, then open native product links or preview one selected numerical product. Resolved names require explicit identity confirmation. The compact summary groups spectra, photometry, light curves and images; native measurements are the main visual content.
 
@@ -29,7 +29,7 @@ MAST product enumeration is a separate bounded action. A preview reads only the 
 
 ## Pending science and hosting work
 
-The current optical spectrum preview displays native F_lambda. The requested F_nu conversion is pending: convert wavelength-based flux density and propagate its errors while retaining native arrays and the Wavelength (angstrom) x-axis. Integrated band energy flux cannot be relabelled as F_nu without a supported spectral conversion. This stopping point does not implement that conversion.
+Supported wavelength spectra now display F_nu in mJy against Wavelength (angstrom). The conversion uses [Astropy spectral-density equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html#spectral-flux-and-luminosity-density-units) and propagates each supplied error by the same positive factor. CSV files retain the native arrays, errors, masks and bit flags alongside separate converted columns; preview metadata records both unit systems and the transformation. Negative and zero fluxes remain. Non-positive or non-finite wavelengths are masked only in the derived display. Counts, relative fluxes, surface brightness, time series and integrated X-ray band fluxes retain their native units. This changes units without reducing, resampling, dereddening or shifting spectra. Discovery engine remains 0.7.0; scientific renderer is 0.7.1. No backend or laptop preview server was started for this update.
 
 Future work includes reduction/presentation of products that lack a ready spectrum, remaining releases and surveys, source association/proper-motion/footprint checks, and reviewed hosting. GitHub Pages can serve static files but cannot run this Python service. A live public portal needs a separately reviewed backend or a browser-accessible subset with valid CORS. Do not expose this loopback development service as a public endpoint.
 

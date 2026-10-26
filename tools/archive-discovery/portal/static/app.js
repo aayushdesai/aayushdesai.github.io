@@ -449,6 +449,12 @@ function seriesSummary(series, index) {
   const x = series.x_unit ?? series.wavelength_unit ?? series.time_unit ?? series.units?.x;
   const y = series.y_unit ?? series.flux_unit ?? series.units?.y;
   node.append(element('p', `Native units: ${x ?? 'x unit not supplied'} · ${y ?? 'y unit not supplied'}`));
+  if (series.display_transform?.status === 'fnu') {
+    node.append(element('p', `Displayed as Fν (${series.display_y_unit}) against wavelength (${series.display_x_unit}). Native values and converted values are both in the CSV.`));
+    node.append(element('p', series.display_transform.uncertainty));
+  } else if (series.display_transform?.reason) {
+    node.append(element('p', series.display_transform.reason));
+  }
   const points = series.point_count ?? series.n_points ?? series.points;
   const errors = series.error_count ?? series.error_point_count ?? series.errors_present;
   const masks = series.masked_count ?? series.mask_count ?? series.masked_points;

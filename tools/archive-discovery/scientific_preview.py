@@ -18,9 +18,12 @@ os.environ.setdefault('MPLCONFIGDIR',str(Path(__file__).resolve().parent/'portal
 
 import numpy as np
 from astropy.io import fits
+from astropy import units as u
 
 SDSS_MODEL='https://www.sdss4.org/dr17/spectro/spectro_basics/'
 DESI_MODEL='https://desidatamodel.readthedocs.io/en/25.3/DESI_SPECTRO_REDUX/SPECPROD/healpix/SURVEY/PROGRAM/PIXGROUP/PIXNUM/coadd-SURVEY-PROGRAM-PIXNUM.html'
+FLUX_CONVERSION_REFERENCE='https://docs.astropy.org/en/stable/units/equivalencies.html#spectral-flux-and-luminosity-density-units'
+RENDERER_VERSION='0.7.1'
 
 
 def plotting():
@@ -129,6 +132,53 @@ def save_figure(fig,out,stem):
     return plots
 
 
+def display_series(series):
+    """Return separate float64 display arrays; never modify native arrays/flags.
+
+    Only wavelength-based energy-flux densities are convertible. Counts, relative
+    fluxes, surface brightness and integrated band fluxes need other information.
+    The Jacobian scales each supplied standard error by the same positive factor;
+    it does not add calibration, wavelength or covariance information.
+    """
+    view={key:np.array(series[key],dtype=np.float64 if key!='mask' else bool,copy=True)
+          if series[key] is not None else None for key in ('x','y','error','mask')}
+    view.update(x_unit=series['x_unit'],y_unit=series['y_unit'],
+                transform=dict(status='native',reason='No supported wavelength flux-density conversion.'))
+    if 'time_reference' in series:
+        view['transform']['reason']='Time series retains its native units and time reference.'
+        return view
+    try:
+        xunit=u.Unit(series['x_unit'].removeprefix('vacuum '))
+        yunit=u.Unit(series['y_unit'])
+    except (ValueError,TypeError):
+        view['transform']['reason']='Native units cannot be interpreted safely; no F_nu conversion.'
+        return view
+    if not xunit.is_equivalent(u.AA):return view
+    flam=u.erg/u.cm**2/u.s/u.AA
+    if not (yunit.is_equivalent(flam) or yunit.is_equivalent(u.Jy)):
+        view['transform']['reason']='Wavelength data have no convertible energy-flux-density units; native values retained.'
+        return view
+    wavelength=np.asarray(xunit.to(u.AA,view['x']),dtype=np.float64)
+    valid=np.isfinite(wavelength)&(wavelength>0)
+    safe=np.where(valid,wavelength,1.)*u.AA
+    factor=np.broadcast_to(yunit.to(u.mJy,equivalencies=u.spectral_density(safe)),wavelength.shape)
+    factor=np.where(valid,factor,np.nan)
+    with np.errstate(over='ignore',invalid='ignore'):
+        view['x']=wavelength
+        view['y']=view['y']*factor
+        if view['error'] is not None:view['error']=view['error']*np.abs(factor)
+    view['mask']|=~valid|~np.isfinite(view['y'])
+    if view['error'] is not None:view['mask']|=~np.isfinite(view['error'])
+    view.update(x_unit='angstrom',y_unit='mJy',transform=dict(status='fnu',
+        formula='F_nu = F_lambda * wavelength^2 / c, with explicit unit conversion' if yunit.is_equivalent(flam) else 'Native F_nu converted to mJy',
+        source_x_unit=series['x_unit'],source_y_unit=series['y_unit'],
+        uncertainty='Supplied per-sample errors multiplied by the same absolute conversion factor; no extra uncertainty inferred.',
+        wavelength_medium='vacuum' if series['x_unit'].startswith('vacuum ') else 'native convention retained',
+        reference=FLUX_CONVERSION_REFERENCE,invalid_wavelength_count=int(np.sum(~valid)),
+        rebinning=False,redshift_correction=False))
+    return view
+
+
 def product(source,out):
     source=Path(source);out=Path(out);out.mkdir(parents=True,exist_ok=True)
     record=json.loads((source/'record.json').read_text());receipt=json.loads((source/'receipt.json').read_text())
@@ -148,7 +198,6 @@ def product(source,out):
                 ax.errorbar(i,r['value'],yerr=error if error is not None else bounds,fmt='o',color='#005f73',capsize=3)
             labels=[f"{r['band_min']:g}--{r['band_max']:g} {r.get('band_unit','')}" for r in rows]
             ax.set_xticks(x,[tex(label) for label in labels],rotation=30,ha='right');ax.set_ylabel(r'Energy flux ($\mathrm{erg}\,\mathrm{cm}^{-2}\,\mathrm{s}^{-1}$)' if unit=='erg cm^-2 s^-1' else tex(unit));ax.set_xlabel('Archive energy band')
-            ax.set_title(tex(record.get('facility','Catalogue')+' flux by energy band'),fontsize=14)
             ax.ticklabel_format(axis='y',style='sci',scilimits=(-2,2));plots.append(save_figure(fig,out,'measurements-'+str(index)));plt.close(fig)
             summaries.append(dict(label='Catalogue energy flux',point_count=len(rows),error_count=sum(r.get('error') is not None or r.get('lower_bound') is not None for r in rows),masked_count=0,x_unit='energy bands; keV',y_unit=unit))
         with (out/'measurements.json').open('x') as stream: json.dump(record['measurements'],stream,indent=2,allow_nan=False)
@@ -156,7 +205,8 @@ def product(source,out):
         raw=source/receipt['native_file']
         if hashlib.sha256(raw.read_bytes()).hexdigest()!=receipt['source_hash']: raise ValueError('Native source hash changed.')
         for index,series in enumerate(native_series(raw,record)):
-            x,y,error,mask=(series[k] for k in ('x','y','error','mask'));good=~mask
+            view=display_series(series)
+            x,y,error,mask=(view[k] for k in ('x','y','error','mask'));good=~mask
             if not np.any(good): raise ValueError('All native points are masked or non-finite.')
             fig,ax=plt.subplots(figsize=(7.3,4.3),layout='constrained')
             if error is not None:
@@ -170,25 +220,34 @@ def product(source,out):
                 ax.plot(x,np.where(good,y,np.nan),lw=1.1,color='#005f73',zorder=3)
             finite=mask&np.isfinite(x)&np.isfinite(y)
             ax.scatter(x[finite],y[finite],s=3,color='.5',alpha=.25,zorder=0,label='Excluded points')
-            x_label='Wavelength (angstrom)' if 'angstrom' in series['x_unit'].lower() else tex(series['x_unit'])
+            x_label='Wavelength (angstrom)' if 'angstrom' in view['x_unit'].lower() else tex(view['x_unit'])
             if 'time_reference' in series:
                 x_label='Time ('+tex(series['x_unit'])+')'
             ax.set_xlabel(x_label)
             y_label=r'Flux density ($10^{-17}\,\mathrm{erg}\,\mathrm{cm}^{-2}\,\mathrm{s}^{-1}\,\mathrm{\AA}^{-1}$)' if series['y_unit']=='1e-17 erg cm^-2 s^-1 Angstrom^-1' else tex(series['y_unit'])
+            if view['transform']['status']=='fnu':y_label=r'$F_\nu$ (mJy)'
             if series['y_unit'] in ('e-/s','electron/s','electrons/s'):y_label=r'Flux ($\mathrm{electron}\,\mathrm{s}^{-1}$)'
             ax.set_ylabel(y_label)
-            ax.set_title(tex(series['label']),fontsize=14)
             if np.any(finite):ax.legend(frameon=False,fontsize=11)
             plots.append(save_figure(fig,out,'series-'+str(index)));plt.close(fig)
             summary={k:v for k,v in series.items() if k not in ('x','y','error','mask','native_flags')}
             summary.update(point_count=len(x),error_count=int(np.sum(good)) if error is not None else 0,masked_count=int(np.sum(mask)))
+            summary.update(display_x_unit=view['x_unit'],display_y_unit=view['y_unit'],
+                           display_transform=view['transform'],native_masked_count=int(np.sum(series['mask'])))
             flags=series.get('native_flags',{})
             summary['native_flagged_counts']={key:int(np.sum(value!=0)) for key,value in flags.items()}
             summaries.append(summary)
             with (out/('series-'+str(index)+'.csv')).open('x',newline='') as stream:
-                writer=csv.writer(stream);writer.writerow(['native_x','native_y','native_error','native_masked']+list(flags))
-                for i in range(len(x)):writer.writerow([x[i],y[i],'' if error is None else error[i],bool(mask[i])]+[flags[key][i] for key in flags])
+                derived=view['transform']['status']=='fnu'
+                writer=csv.writer(stream);writer.writerow(['native_x','native_y','native_error','native_masked']+list(flags)+(['wavelength_angstrom','fnu_mjy','fnu_error_mjy','display_masked'] if derived else []))
+                for i in range(len(x)):
+                    row=[series['x'][i],series['y'][i],'' if series['error'] is None else series['error'][i],bool(series['mask'][i])]+[flags[key][i] for key in flags]
+                    if derived:row += [x[i],y[i],'' if error is None else error[i],bool(mask[i])]
+                    writer.writerow(row)
     warnings=list(receipt['warnings'])
+    if any(s.get('display_transform',{}).get('status')=='fnu' for s in summaries):
+        warnings += ['Supported wavelength flux densities are displayed as F_nu in mJy; native arrays, units and flags remain in the CSV alongside derived columns. Only units change; no resampling, extinction or redshift correction is applied.',
+                     'The uncertainty band uses the supplied per-sample errors. Calibration, wavelength and covariance uncertainty are not inferred.']
     if record.get('measurements'):
         warnings += ['Selected catalogue source is a candidate at its own coordinates; these values are not all measurements of the requested target.',
             'The total energy band overlaps its sub-bands; they are separate archive measurements, not independent components to sum.',
@@ -202,7 +261,7 @@ def product(source,out):
         warnings += ['Native units, time references and QUALITY/DQ values are retained; no barycentric correction is applied again.']
         if record.get('native_vs_document_position_separation_arcsec') is not None:
             warnings += ['Native and source-document coordinates differ by '+str(record['native_vs_document_position_separation_arcsec'])+' arcsec; source association remains unverified.']
-    result=dict(receipt,status='ready',series=summaries,plots=plots,warnings=warnings,
+    result=dict(receipt,status='ready',scientific_renderer_version=RENDERER_VERSION,series=summaries,plots=plots,warnings=warnings,
         catalogue_time_basis=[m.get('time_basis') for m in record.get('measurements',[])],
         downloads=[p.name for p in out.iterdir() if p.suffix in ('.csv','.json') and p.name!='preview.json']+['preview.json'])
     (out/'preview.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')

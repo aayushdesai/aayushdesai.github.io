@@ -1,5 +1,5 @@
 {
-  "version": "0.7.0",
+  "version": "0.7.1",
   "source_only": true,
   "files": [
     {
@@ -14,8 +14,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 3765,
-      "sha256": "d35605e67a44a8474ffc13f3c65e485547cb2ab58ecbf0e720d6c07e3b18bc7c"
+      "bytes": 4316,
+      "sha256": "9853c699555898f70a7ba319fba367c3a3ec989be47843b43bbd88689d8871b1"
     },
     {
       "path": "archive_discovery.py",
@@ -74,8 +74,8 @@
     },
     {
       "path": "portal/static/app.js",
-      "bytes": 39786,
-      "sha256": "6eab6606708dbc2e4d7b55016ffbbb436a523bddb1ca40107660443f3843f471"
+      "bytes": 40205,
+      "sha256": "81800aeb165b98714fe9d0b4dcd5b501b52232828518a67695de7ed0c383fa0d"
     },
     {
       "path": "portal/static/index.html",
@@ -104,8 +104,8 @@
     },
     {
       "path": "scientific_preview.py",
-      "bytes": 19076,
-      "sha256": "46e07832b2078df7a9215286c83c02039d6770027289b9ea33eec3dee86186e0"
+      "bytes": 23098,
+      "sha256": "8d8101d2d7fc755b21977871effe02404418ee641b8750b2851b150bb39bc405"
     },
     {
       "path": "spectral_routes.py",
@@ -121,6 +121,11 @@
       "path": "test_archive_discovery.py",
       "bytes": 5996,
       "sha256": "f2c8b5639e9f789fb9c0c137bf9fb6590d1ba3ddaa3cc679068d514a635ece7e"
+    },
+    {
+      "path": "test_fnu_preview.py",
+      "bytes": 3312,
+      "sha256": "caf51f3ca770ff008b6c7e7f0bb75bcc19fa5d117dabd9cb878aac7ed82d2012"
     },
     {
       "path": "test_inventory_export.py",
@@ -174,15 +179,20 @@
     }
   ],
   "validation": {
-    "stdlib_tests": 112,
-    "stdlib_skipped_optional": 3,
-    "optional_reader_tests": 8,
-    "no_network": true
+    "all_package_tests": 119,
+    "optional_tests_skipped": 0,
+    "no_network": true,
+    "private_workspace_tests": 232,
+    "actual_sdss_export_rows_verified": 3845,
+    "native_hash_unchanged": true,
+    "integrated_xmm_units_unchanged": true,
+    "scientific_pdf_font": "Embedded EBGaramond-Regular verified"
   },
   "transformations": [
     "Private cached example hooks/data omitted; public live query interface retained.",
     "Private empirical evidence omitted; public registry marks live validation unconfirmed.",
-    "Plot defaults contained in project; no personal filesystem paths."
+    "Plot defaults contained in project; no personal filesystem paths.",
+    "Match previously published whitespace normalisation in app.js and index.html; no source tokens changed."
   ],
   "excluded": [
     "native downloads",
@@ -192,5 +202,8 @@
     "checkpoint artifacts",
     "handoffs",
     "sealed Swift data"
-  ]
+  ],
+  "discovery_engine_version": "0.7.0",
+  "previous_package": "public-code-v070",
+  "release_scope": "Display-only F_nu conversion, propagated native errors, preserved native export columns, explicit UI units, no extra plot titles"
 }
