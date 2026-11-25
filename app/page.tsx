@@ -29,7 +29,37 @@ const projects = [
   },
 ];
 
-const publications = [
+type Publication = {
+  year: string;
+  title: string;
+  authors: string;
+  venue: string;
+  note: string;
+  doi?: string;
+  url?: string;
+  identifier?: string;
+};
+
+const publications: Publication[] = [
+  {
+    year: '2026',
+    title: 'Little Red Dots at Cosmic Noon: Spectroscopic Identification and Broad-Line Properties',
+    authors: 'D. J. Lyon et al., including A. Desai',
+    venue: 'arXiv preprint · arXiv:2611.26710',
+    note: 'Twelfth author of twenty-one',
+    url: 'https://arxiv.org/abs/2611.26710',
+    identifier: 'arXiv:2611.26710',
+  },
+  {
+    year: '2026',
+    title:
+      'Little Red Dots at Cosmic Noon: Spectroscopy Reveals Declining Abundance but a Non-Evolving Luminosity Function Shape',
+    authors: 'Y. Ma et al., including A. Desai',
+    venue: 'arXiv preprint · arXiv:2611.26685',
+    note: 'Tenth author of twenty-one',
+    url: 'https://arxiv.org/abs/2611.26685',
+    identifier: 'arXiv:2611.26685',
+  },
   {
     year: '2026',
     title:
@@ -212,7 +242,7 @@ export default function Home() {
           <div className="section-label light">Publication record</div>
           <div className="section-heading publication-heading">
             <h2 id="publications-title">Publications</h2>
-            <p>Six peer-reviewed articles, from magnetic white dwarfs to disordered solids.</p>
+            <p>Eight papers: six peer-reviewed articles and two current preprints.</p>
           </div>
 
           <div className="publication-actions">
@@ -227,7 +257,7 @@ export default function Home() {
             {publications.map((publication) => (
               <a
                 className="publication-row"
-                href={`https://doi.org/${publication.doi}`}
+                href={publication.url ?? `https://doi.org/${publication.doi}`}
                 target="_blank"
                 rel="noreferrer"
                 key={publication.title}
@@ -237,7 +267,7 @@ export default function Home() {
                   <strong>{publication.title}</strong>
                   <span className="publication-authors">{publication.authors}</span>
                   <small>{publication.venue}</small>
-                  <code>doi:{publication.doi}</code>
+                  <code>{publication.identifier ?? `doi:${publication.doi}`}</code>
                 </span>
                 <span className="publication-note">{publication.note}</span>
                 <i aria-hidden="true">↗</i>
